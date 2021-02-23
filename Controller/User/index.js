@@ -7,12 +7,16 @@ exports.login=(req,res, next)=>{
   const coll = db.collection('user')
   const query = {email:req.body.email , password:req.body.password}
   coll.findOne({email:req.body.email ,password:req.body.password},(err,data)=>{
-   const token = jwt.sign({email:req.body.email, password:req.body.password}, process.env.PRIVATEKEY, {expiresIn:'10m'}) 
-    const tokenColl = db.collection('token')
-    const myObj = {token: token, timestamp:timestamp('YYYY/MM/DD:mm:ss')}
-    tokenColl.insert(myObj ,(err,data)=>{
-    })
-    res.status(200).json({data:data,assessToekn:token})
+    if(data){
+      const token = jwt.sign({email:req.body.email, password:req.body.password}, process.env.PRIVATEKEY, {expiresIn:'10m'}) 
+       const tokenColl = db.collection('token')
+       const myObj = {token: token, timestamp:timestamp('YYYY/MM/DD:mm:ss')}
+       tokenColl.insert(myObj ,(err,data)=>{
+       })
+       res.status(200).json({data:data,assessToekn:token})
+    }else{
+      res.status(200).json({data:data})
+    }
   })
 }
 
