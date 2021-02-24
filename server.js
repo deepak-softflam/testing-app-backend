@@ -9,6 +9,8 @@ dotenv.config()
 
 db.connect()
 app.use(cors())
+app.use(express.static(__dirname+'./tmp'));
+app.use(express.static('./tmp'));
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
 

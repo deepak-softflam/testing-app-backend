@@ -8,7 +8,7 @@ exports.login=(req,res, next)=>{
   const query = {email:req.body.email , password:req.body.password}
   coll.findOne({email:req.body.email ,password:req.body.password},(err,data)=>{
     if(data){
-      const token = jwt.sign({email:req.body.email, password:req.body.password}, process.env.PRIVATEKEY, {expiresIn:'10m'}) 
+      const token = jwt.sign({email:req.body.email, password:req.body.password}, process.env.PRIVATEKEY, {expiresIn:'1hr'}) 
        const tokenColl = db.collection('token')
        const myObj = {token: token, timestamp:timestamp('YYYY/MM/DD:mm:ss')}
        tokenColl.insert(myObj ,(err,data)=>{
@@ -44,7 +44,7 @@ exports.userList = (req, res, next) => {
     }
       bb.insert(myObj,(err,data)=>{
         res.json({
-          message:'User Added',
+          message:'User Added successfully ...',
           data:data
         })
       })
